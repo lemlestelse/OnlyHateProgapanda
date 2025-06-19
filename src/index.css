@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-blackmetal-900 text-grimdark-100 scrollbar-thin scrollbar-thumb-blood-red scrollbar-track-blackmetal-700;
+  }
+  
+  body {
+    @apply min-h-screen bg-blackmetal-900;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Cinzel Decorative', serif;
+    @apply tracking-wider;
+  }
+
+  h4, h5, h6 {
+    font-family: 'IM Fell English SC', serif;
+    @apply tracking-wide;
+  }
+
+  a {
+    @apply transition-colors duration-300;
+  }
+
+  a:hover {
+    @apply text-blood-red;
+  }
+
+  ::selection {
+    @apply bg-blood-red text-blackmetal-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-none uppercase tracking-widest font-bold text-sm transition-all duration-300 flex items-center justify-center;
+  }
+
+  .btn-primary {
+    @apply btn bg-blood-red text-grimdark-100 hover:bg-darker-red border border-blood-red;
+  }
+
+  .btn-secondary {
+    @apply btn bg-blackmetal-800 text-grimdark-100 hover:bg-blackmetal-600 border border-grimdark-400;
+  }
+
+  .btn-outline {
+    @apply btn bg-transparent border border-blood-red text-blood-red hover:bg-blood-red hover:text-blackmetal-900;
+  }
+
+  .nav-link {
+    @apply relative uppercase tracking-widest text-grimdark-100 hover:text-blood-red transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-blood-red after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  .nav-link.active {
+    @apply text-blood-red after:w-full;
+  }
+
+  .container-dark {
+    @apply bg-blackmetal-800 border border-blackmetal-600 p-6;
+  }
+
+  .container-darker {
+    @apply bg-blackmetal-900 border border-blackmetal-700 p-6;
+  }
+
+  .blood-border {
+    @apply border border-blood-red;
+  }
+
+  .album-card {
+    @apply relative overflow-hidden border border-blackmetal-600 hover:border-blood-red transition-all duration-300;
+  }
+
+  .input-dark {
+    @apply bg-blackmetal-700 border-blackmetal-600 text-grimdark-100 px-4 py-2 w-full focus:border-blood-red focus:ring-blood-red focus:outline-none transition-colors duration-300;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thumb-blood-red {
+    scrollbar-color: #FF0000 #141414;
+  }
+
+  .scrollbar-track-blackmetal-700 {
+    /* Custom scrollbar track color - used with scrollbar-color */
+  }
+}
+
+/* Animations */
+.fade-in {
+  animation: fadeIn 0.6s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+.rise-from-dark {
+  animation: riseFromDark 0.8s ease-out forwards;
+}
+
+@keyframes riseFromDark {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
