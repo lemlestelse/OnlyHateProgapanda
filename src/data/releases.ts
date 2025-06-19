@@ -13,6 +13,7 @@ export interface Release {
   featured?: boolean;
 }
 
+// This will be managed by the admin store, but we keep the initial data here
 export const releases: Release[] = [
    {
     id: 'G2',
@@ -340,7 +341,7 @@ export const releases: Release[] = [
     year: 2023,
     type: 'Demo',
     image: '/img/releases/DemoK1.jpg',
-    description: 'It’s a demo of raw, atmospheric black metal featuring heavy riffs and a dark atmosphere that conveys the intense and melancholic vibe typical of underground metal.',
+    description: 'It's a demo of raw, atmospheric black metal featuring heavy riffs and a dark atmosphere that conveys the intense and melancholic vibe typical of underground metal.',
     tracklist: [
       'Intro',
       'Souls of War',

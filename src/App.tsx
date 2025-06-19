@@ -14,10 +14,19 @@ import BandDetailPage from './pages/BandDetailPage';
 import ReleaseDetailPage from './pages/ReleaseDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 
+// Admin Components
+import AdminLayout from './components/admin/AdminLayout';
+import AdminLogin from './components/admin/AdminLogin';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminBands from './pages/admin/AdminBands';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminBandForm from './pages/admin/AdminBandForm';
+
 function App() {
   return (
     <AnimatePresence mode="wait">
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="releases" element={<ReleasesPage />} />
@@ -30,6 +39,18 @@ function App() {
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="*" element={<NotFoundPage />} />
+        </Route>
+
+        {/* Admin Routes */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="bands" element={<AdminBands />} />
+          <Route path="bands/new" element={<AdminBandForm />} />
+          <Route path="bands/:id" element={<AdminBandForm />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="releases" element={<div>Releases Admin (Coming Soon)</div>} />
+          <Route path="settings" element={<div>Settings (Coming Soon)</div>} />
         </Route>
       </Routes>
     </AnimatePresence>

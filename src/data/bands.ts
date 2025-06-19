@@ -11,6 +11,7 @@ export interface Band {
   featured?: boolean;
 }
 
+// This will be managed by the admin store, but we keep the initial data here
 export const bands: Band[] = [
   {
     id: '1',
