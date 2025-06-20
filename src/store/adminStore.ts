@@ -31,6 +31,7 @@ interface AdminStore {
   updateProduct: (id: string, product: Partial<Product>) => void;
   deleteProduct: (id: string) => void;
   updateStock: (id: string, inStock: boolean) => void;
+  updateStockQuantity: (id: string, quantity: number) => void;
   
   // Utility functions
   generateId: () => string;
@@ -116,7 +117,8 @@ export const useAdminStore = create<AdminStore>()(
       addProduct: (productData) => {
         const newProduct: Product = {
           ...productData,
-          id: get().generateId()
+          id: get().generateId(),
+          inStock: productData.stockQuantity > 0
         };
         set((state) => ({
           products: [...state.products, newProduct]
@@ -126,7 +128,11 @@ export const useAdminStore = create<AdminStore>()(
       updateProduct: (id, updates) => {
         set((state) => ({
           products: state.products.map(product => 
-            product.id === id ? { ...product, ...updates } : product
+            product.id === id ? { 
+              ...product, 
+              ...updates,
+              inStock: updates.stockQuantity !== undefined ? updates.stockQuantity > 0 : product.inStock
+            } : product
           )
         }));
       },
@@ -140,7 +146,23 @@ export const useAdminStore = create<AdminStore>()(
       updateStock: (id, inStock) => {
         set((state) => ({
           products: state.products.map(product => 
-            product.id === id ? { ...product, inStock } : product
+            product.id === id ? { 
+              ...product, 
+              inStock,
+              stockQuantity: inStock ? (product.stockQuantity || 1) : 0
+            } : product
+          )
+        }));
+      },
+
+      updateStockQuantity: (id, quantity) => {
+        set((state) => ({
+          products: state.products.map(product => 
+            product.id === id ? { 
+              ...product, 
+              stockQuantity: quantity,
+              inStock: quantity > 0
+            } : product
           )
         }));
       },

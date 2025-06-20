@@ -20,7 +20,11 @@ import AdminLogin from './components/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminBands from './pages/admin/AdminBands';
 import AdminProducts from './pages/admin/AdminProducts';
+import AdminReleases from './pages/admin/AdminReleases';
 import AdminBandForm from './pages/admin/AdminBandForm';
+import AdminProductForm from './pages/admin/AdminProductForm';
+import AdminReleaseForm from './pages/admin/AdminReleaseForm';
+import AdminSettings from './pages/admin/AdminSettings';
 
 function App() {
   return (
@@ -49,8 +53,12 @@ function App() {
           <Route path="bands/new" element={<AdminBandForm />} />
           <Route path="bands/:id" element={<AdminBandForm />} />
           <Route path="products" element={<AdminProducts />} />
-          <Route path="releases" element={<div>Releases Admin (Coming Soon)</div>} />
-          <Route path="settings" element={<div>Settings (Coming Soon)</div>} />
+          <Route path="products/new" element={<AdminProductForm />} />
+          <Route path="products/:id" element={<AdminProductForm />} />
+          <Route path="releases" element={<AdminReleases />} />
+          <Route path="releases/new" element={<AdminReleaseForm />} />
+          <Route path="releases/:id" element={<AdminReleaseForm />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Route>
       </Routes>
     </AnimatePresence>

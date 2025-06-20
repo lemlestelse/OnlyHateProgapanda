@@ -5,11 +5,13 @@ import { Plus, Search, Edit, Trash2, Package, ToggleLeft, ToggleRight } from 'lu
 import { useAdminStore } from '../../store/adminStore';
 
 const AdminProducts: React.FC = () => {
-  const { products, deleteProduct, updateStock } = useAdminStore();
+  const { products, deleteProduct, updateStock, updateStockQuantity } = useAdminStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterStock, setFilterStock] = useState<string>('all');
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [editingStock, setEditingStock] = useState<string | null>(null);
+  const [tempQuantity, setTempQuantity] = useState<number>(0);
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,6 +38,16 @@ const AdminProducts: React.FC = () => {
 
   const handleStockToggle = (id: string, currentStock: boolean) => {
     updateStock(id, !currentStock);
+  };
+
+  const handleQuantityEdit = (id: string, currentQuantity: number) => {
+    setEditingStock(id);
+    setTempQuantity(currentQuantity);
+  };
+
+  const handleQuantityUpdate = (id: string) => {
+    updateStockQuantity(id, tempQuantity);
+    setEditingStock(null);
   };
 
   const getTypeColor = (type: string) => {
@@ -114,7 +126,10 @@ const AdminProducts: React.FC = () => {
                   Price
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-grimdark-300 uppercase tracking-wider">
-                  Stock
+                  Stock Quantity
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-grimdark-300 uppercase tracking-wider">
+                  Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-grimdark-300 uppercase tracking-wider">
                   Actions
@@ -158,6 +173,38 @@ const AdminProducts: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-grimdark-300">
                     R${product.price.toFixed(2)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {editingStock === product.id ? (
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="number"
+                          min="0"
+                          value={tempQuantity}
+                          onChange={(e) => setTempQuantity(parseInt(e.target.value) || 0)}
+                          className="w-20 px-2 py-1 bg-blackmetal-700 border border-blackmetal-600 text-grimdark-100 text-sm"
+                        />
+                        <button
+                          onClick={() => handleQuantityUpdate(product.id)}
+                          className="text-green-400 hover:text-green-300 text-sm"
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={() => setEditingStock(null)}
+                          className="text-red-400 hover:text-red-300 text-sm"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleQuantityEdit(product.id, product.stockQuantity)}
+                        className="text-grimdark-300 hover:text-grimdark-100"
+                      >
+                        {product.stockQuantity} units
+                      </button>
+                    )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button

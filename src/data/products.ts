@@ -10,6 +10,7 @@ export interface Product {
   description: string;
   variants?: string[];
   inStock: boolean;
+  stockQuantity: number;
   featured?: boolean;
 }
 
@@ -28,6 +29,7 @@ export const products: Product[] = [
     description: 'teste',
     variants: ['Black Vinyl', 'Blood Red Vinyl (Limited to 300)'],
     inStock: true,
+    stockQuantity: 50,
     featured: true
   },
   
@@ -43,6 +45,7 @@ export const products: Product[] = [
     image: '/img/products/CdN2.jpg',
     description: 'Digipack CD featuring the debut album from Nocturnal Rites. Includes 16-page booklet with lyrics and exclusive artwork.',
     inStock: true,
+    stockQuantity: 25,
     featured: false
   },
 
@@ -59,6 +62,7 @@ export const products: Product[] = [
     image: '/img/products/EpD1.jpg',
     description: 'Limited edition ',
     inStock: false,
+    stockQuantity: 0,
     featured: true
   },
   
@@ -73,6 +77,7 @@ export const products: Product[] = [
     description: 'Camisa da banda mais ANTIFA do bostil',
     variants: ['S', 'M', 'L', 'XL', 'XXL'],
     inStock: true,
+    stockQuantity: 15,
     featured: false
   }
 ];
