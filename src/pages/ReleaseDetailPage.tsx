@@ -2,12 +2,12 @@ import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Disc, ShoppingBag, Music, Share2 } from 'lucide-react';
-import { releases } from '../data/releases';
-import { products } from '../data/products';
+import { useAdminStore } from '../store/adminStore';
 
 const ReleaseDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { releases, products } = useAdminStore();
   
   // Find the current release
   const release = releases.find(r => r.id === id);
@@ -176,7 +176,7 @@ const ReleaseDetailPage: React.FC = () => {
                       </h3>
                     </Link>
                     <p className="mt-2 text-lg font-bold text-blood-red">
-                      ${product.price.toFixed(2)}
+                      R${product.price.toFixed(2)}
                     </p>
                     <div className="mt-3">
                       {!product.inStock ? (

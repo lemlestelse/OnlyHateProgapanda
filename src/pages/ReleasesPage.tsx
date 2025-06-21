@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Filter } from 'lucide-react';
-import { releases } from '../data/releases';
+import { useAdminStore } from '../store/adminStore';
 
 const ReleasesPage: React.FC = () => {
+  const { releases } = useAdminStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterYear, setFilterYear] = useState<string>('all');
@@ -148,17 +149,27 @@ const ReleasesPage: React.FC = () => {
             <div className="flex-grow">
               {filteredReleases.length === 0 ? (
                 <div className="text-center py-12 bg-blackmetal-800 border border-blackmetal-600">
-                  <p className="text-grimdark-300 mb-4">No releases found matching your criteria.</p>
-                  <button 
-                    onClick={() => {
-                      setSearchTerm('');
-                      setFilterType('all');
-                      setFilterYear('all');
-                    }}
-                    className="btn-outline"
-                  >
-                    Reset Filters
-                  </button>
+                  <p className="text-grimdark-300 mb-4">
+                    {searchTerm || filterType !== 'all' || filterYear !== 'all' 
+                      ? 'No releases found matching your criteria.' 
+                      : 'No releases available yet.'}
+                  </p>
+                  {searchTerm || filterType !== 'all' || filterYear !== 'all' ? (
+                    <button 
+                      onClick={() => {
+                        setSearchTerm('');
+                        setFilterType('all');
+                        setFilterYear('all');
+                      }}
+                      className="btn-outline"
+                    >
+                      Reset Filters
+                    </button>
+                  ) : (
+                    <p className="text-grimdark-400 text-sm">
+                      Releases will appear here when added through the admin panel.
+                    </p>
+                  )}
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

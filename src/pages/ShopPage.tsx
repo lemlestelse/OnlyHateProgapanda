@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Filter, Search, ShoppingCart } from 'lucide-react';
-import { products } from '../data/products';
+import { useAdminStore } from '../store/adminStore';
 import { useCartStore } from '../store/cartStore';
 
 const ShopPage: React.FC = () => {
+  const { products } = useAdminStore();
+  const { addItem } = useCartStore();
+  
   // Filter states
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<string>('all');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const { addItem } = useCartStore();
 
   // Filter products based on search term and type
   const filteredProducts = products.filter(product => {
@@ -80,7 +82,7 @@ const ShopPage: React.FC = () => {
           </div>
 
           {/* Filter Options - Mobile */}
-          <div className={`md:hidden bg-blackmetal-800 border border-blackmetal-600 p-4 mb-4 R${isFilterOpen ? 'block' : 'hidden'}`}>
+          <div className={`md:hidden bg-blackmetal-800 border border-blackmetal-600 p-4 mb-4 ${isFilterOpen ? 'block' : 'hidden'}`}>
             <h3 className="text-lg font-medium mb-4">Product Type</h3>
             <div className="space-y-2">
               <label className="flex items-center">
@@ -211,16 +213,26 @@ const ShopPage: React.FC = () => {
             <div className="flex-grow">
               {filteredProducts.length === 0 ? (
                 <div className="text-center py-12 bg-blackmetal-800 border border-blackmetal-600">
-                  <p className="text-grimdark-300 mb-4">No products found matching your criteria.</p>
-                  <button 
-                    onClick={() => {
-                      setSearchTerm('');
-                      setSelectedType('all');
-                    }}
-                    className="btn-outline"
-                  >
-                    Reset Filters
-                  </button>
+                  <p className="text-grimdark-300 mb-4">
+                    {searchTerm || selectedType !== 'all' 
+                      ? 'No products found matching your criteria.' 
+                      : 'No products available yet.'}
+                  </p>
+                  {searchTerm || selectedType !== 'all' ? (
+                    <button 
+                      onClick={() => {
+                        setSearchTerm('');
+                        setSelectedType('all');
+                      }}
+                      className="btn-outline"
+                    >
+                      Reset Filters
+                    </button>
+                  ) : (
+                    <p className="text-grimdark-400 text-sm">
+                      Products will appear here when added through the admin panel.
+                    </p>
+                  )}
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -259,7 +271,7 @@ const ShopPage: React.FC = () => {
                         </div>
                       </div>
                       <div className="p-4">
-                        <Link to={`/shop/product/R${product.id}`} className="block">
+                        <Link to={`/shop/product/${product.id}`} className="block">
                           <h3 className="text-lg font-medium mb-1 group-hover:text-blood-red transition-colors duration-300 line-clamp-1">{product.name}</h3>
                         </Link>
                         {product.artist && (

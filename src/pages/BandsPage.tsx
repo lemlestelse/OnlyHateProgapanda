@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { bands } from '../data/bands';
+import { useAdminStore } from '../store/adminStore';
 
 const BandsPage: React.FC = () => {
+  const { bands } = useAdminStore();
   const [searchTerm, setSearchTerm] = useState('');
   
   // Filter bands based on search term
@@ -41,13 +42,21 @@ const BandsPage: React.FC = () => {
         {/* Bands Grid */}
         {filteredBands.length === 0 ? (
           <div className="text-center py-12 bg-blackmetal-800 border border-blackmetal-600">
-            <p className="text-grimdark-300 mb-4">No artists found matching your search.</p>
-            <button 
-              onClick={() => setSearchTerm('')}
-              className="btn-outline"
-            >
-              Reset Search
-            </button>
+            <p className="text-grimdark-300 mb-4">
+              {searchTerm ? 'No artists found matching your search.' : 'No artists available yet.'}
+            </p>
+            {searchTerm ? (
+              <button 
+                onClick={() => setSearchTerm('')}
+                className="btn-outline"
+              >
+                Reset Search
+              </button>
+            ) : (
+              <p className="text-grimdark-400 text-sm">
+                Artists will appear here when added through the admin panel.
+              </p>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

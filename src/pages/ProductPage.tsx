@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ShoppingCart, ArrowLeft, Music, AlertCircle } from 'lucide-react';
-import { products } from '../data/products';
+import { useAdminStore } from '../store/adminStore';
 import { useCartStore } from '../store/cartStore';
 
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { products } = useAdminStore();
   const { addItem } = useCartStore();
   
   const [quantity, setQuantity] = useState(1);
@@ -112,7 +113,7 @@ const ProductPage: React.FC = () => {
             )}
 
             <p className="text-2xl font-bold text-blood-red mb-6">
-              ${product.price.toFixed(2)}
+              R${product.price.toFixed(2)}
             </p>
 
             <div className="mb-6">
@@ -254,7 +255,7 @@ const ProductPage: React.FC = () => {
                       </p>
                     )}
                     <p className="mt-2 text-lg font-bold text-blood-red">
-                      ${relatedProduct.price.toFixed(2)}
+                      R${relatedProduct.price.toFixed(2)}
                     </p>
                   </div>
                 </motion.div>
