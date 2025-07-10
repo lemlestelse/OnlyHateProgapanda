@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Filter } from 'lucide-react';
-import { useAdminStore } from '../store/adminStore';
+import { releases } from '../data/releases';
 
 const ReleasesPage: React.FC = () => {
-  const { releases } = useAdminStore();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterYear, setFilterYear] = useState<string>('all');

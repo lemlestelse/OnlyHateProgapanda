@@ -34,6 +34,11 @@ const Header: React.FC = () => {
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Link to="/" className="z-50">
+          <img 
+            src="/img/logo-onlyhate.png" 
+            alt="Onlyhate Propaganda" 
+            className="h-12 w-auto"
+          />
         </Link>
 
         {/* Desktop Navigation */}

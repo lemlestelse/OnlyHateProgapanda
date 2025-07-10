@@ -2,12 +2,11 @@ import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Disc, Music, Share2, ExternalLink } from 'lucide-react';
-import { useAdminStore } from '../store/adminStore';
+import { releases } from '../data/releases';
 
 const ReleaseDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { releases } = useAdminStore();
   
   // Find the current release
   const release = releases.find(r => r.id === id);

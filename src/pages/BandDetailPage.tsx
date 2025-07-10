@@ -2,11 +2,11 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Disc, Calendar, Users, Music, Share2 } from 'lucide-react';
-import { useAdminStore } from '../store/adminStore';
+import { bands } from '../data/bands';
+import { releases } from '../data/releases';
 
 const BandDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { bands, releases } = useAdminStore();
   
   // Find the current band
   const band = bands.find(b => b.id === id);

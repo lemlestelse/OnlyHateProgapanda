@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { useAdminStore } from '../store/adminStore';
+import { bands } from '../data/bands';
 
 const BandsPage: React.FC = () => {
-  const { bands } = useAdminStore();
   const [searchTerm, setSearchTerm] = useState('');
   
   // Filter bands based on search term

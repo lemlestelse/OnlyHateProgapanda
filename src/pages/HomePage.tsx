@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Disc, Music } from 'lucide-react';
-import { useAdminStore } from '../store/adminStore';
+import { bands } from '../data/bands';
+import { releases } from '../data/releases';
 
 const HomePage: React.FC = () => {
-  const { releases, bands } = useAdminStore();
-  
   const featuredReleases = releases.filter(release => release.featured).slice(0, 3);
   const featuredBands = bands.filter(band => band.featured).slice(0, 4);
 
@@ -20,7 +19,13 @@ const HomePage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">ONLYHATE PROPAGANDA</h1>
+          <div className="flex justify-center mb-6">
+            <img 
+              src="/img/logo-onlyhate.png" 
+              alt="Onlyhate Propaganda" 
+              className="h-32 md:h-48 w-auto"
+            />
+          </div>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-grimdark-300">
             Preservando a essência sombria do black metal através da expressão artística sem compromissos
           </p>
