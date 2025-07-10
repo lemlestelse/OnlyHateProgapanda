@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { 
   Users, 
   Disc, 
-  ShoppingBag, 
   BarChart3, 
   Settings, 
   LogOut,
@@ -24,7 +23,6 @@ const AdminLayout: React.FC = () => {
     { name: 'Dashboard', href: '/admin', icon: BarChart3 },
     { name: 'Bands', href: '/admin/bands', icon: Users },
     { name: 'Releases', href: '/admin/releases', icon: Disc },
-    { name: 'Products', href: '/admin/products', icon: ShoppingBag },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 

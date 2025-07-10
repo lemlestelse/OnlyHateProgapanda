@@ -4,18 +4,15 @@ import { Save, Upload, Download, Trash2, AlertTriangle } from 'lucide-react';
 import { useAdminStore } from '../../store/adminStore';
 
 const AdminSettings: React.FC = () => {
-  const { bands, releases, products } = useAdminStore();
+  const { bands, releases } = useAdminStore();
   const [settings, setSettings] = useState({
     siteName: 'Onlyhate Propaganda',
-    siteDescription: 'Black Metal Record Label',
+    siteDescription: 'Selo de Black Metal',
     contactEmail: 'onlyhatepropaganda@gmail.com',
     enableNewsletter: true,
-    enableFeaturedProducts: true,
+    enableFeaturedBands: true,
     enableFeaturedReleases: true,
     maxFeaturedItems: 4,
-    currency: 'R$',
-    shippingCost: 9.99,
-    taxRate: 0.08
   });
 
   const [showExportConfirm, setShowExportConfirm] = useState(false);
@@ -41,7 +38,6 @@ const AdminSettings: React.FC = () => {
     const data = {
       bands,
       releases,
-      products,
       settings,
       exportDate: new Date().toISOString()
     };
@@ -136,54 +132,8 @@ const AdminSettings: React.FC = () => {
           </div>
 
           <div>
-            <label htmlFor="currency" className="block text-grimdark-300 mb-2">
-              Currency Symbol
-            </label>
-            <input
-              type="text"
-              id="currency"
-              name="currency"
-              value={settings.currency}
-              onChange={handleInputChange}
-              className="input-dark"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="shippingCost" className="block text-grimdark-300 mb-2">
-              Default Shipping Cost
-            </label>
-            <input
-              type="number"
-              id="shippingCost"
-              name="shippingCost"
-              value={settings.shippingCost}
-              onChange={handleInputChange}
-              step="0.01"
-              className="input-dark"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="taxRate" className="block text-grimdark-300 mb-2">
-              Tax Rate (decimal)
-            </label>
-            <input
-              type="number"
-              id="taxRate"
-              name="taxRate"
-              value={settings.taxRate}
-              onChange={handleInputChange}
-              step="0.01"
-              min="0"
-              max="1"
-              className="input-dark"
-            />
-          </div>
-
-          <div>
             <label htmlFor="maxFeaturedItems" className="block text-grimdark-300 mb-2">
-              Max Featured Items
+              Máximo de Itens em Destaque
             </label>
             <input
               type="number"
@@ -200,7 +150,7 @@ const AdminSettings: React.FC = () => {
 
         <div className="mt-6">
           <label htmlFor="siteDescription" className="block text-grimdark-300 mb-2">
-            Site Description
+            Descrição do Site
           </label>
           <textarea
             id="siteDescription"
@@ -221,18 +171,18 @@ const AdminSettings: React.FC = () => {
               onChange={handleInputChange}
               className="mr-2"
             />
-            <span className="text-grimdark-300">Enable Newsletter Signup</span>
+            <span className="text-grimdark-300">Habilitar Inscrição na Newsletter</span>
           </label>
 
           <label className="flex items-center">
             <input
               type="checkbox"
-              name="enableFeaturedProducts"
-              checked={settings.enableFeaturedProducts}
+              name="enableFeaturedBands"
+              checked={settings.enableFeaturedBands}
               onChange={handleInputChange}
               className="mr-2"
             />
-            <span className="text-grimdark-300">Show Featured Products on Homepage</span>
+            <span className="text-grimdark-300">Mostrar Bandas em Destaque na Homepage</span>
           </label>
 
           <label className="flex items-center">
@@ -243,14 +193,14 @@ const AdminSettings: React.FC = () => {
               onChange={handleInputChange}
               className="mr-2"
             />
-            <span className="text-grimdark-300">Show Featured Releases on Homepage</span>
+            <span className="text-grimdark-300">Mostrar Lançamentos em Destaque na Homepage</span>
           </label>
         </div>
 
         <div className="mt-6">
           <button onClick={handleSaveSettings} className="btn-primary">
             <Save size={18} className="mr-2" />
-            Save Settings
+            Salvar Configurações
           </button>
         </div>
       </motion.div>
@@ -262,33 +212,33 @@ const AdminSettings: React.FC = () => {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="bg-blackmetal-800 border border-blackmetal-600 p-6 rounded-lg"
       >
-        <h2 className="text-xl font-bold text-grimdark-100 mb-6">Data Management</h2>
+        <h2 className="text-xl font-bold text-grimdark-100 mb-6">Gerenciamento de Dados</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Export Data */}
           <div className="bg-blackmetal-700 border border-blackmetal-600 p-4 rounded">
-            <h3 className="text-lg font-medium text-grimdark-100 mb-2">Export Data</h3>
+            <h3 className="text-lg font-medium text-grimdark-100 mb-2">Exportar Dados</h3>
             <p className="text-sm text-grimdark-400 mb-4">
-              Download a backup of all your bands, releases, and products.
+              Baixe um backup de todas as suas bandas e lançamentos.
             </p>
             <button
               onClick={() => setShowExportConfirm(true)}
               className="btn-outline w-full"
             >
               <Download size={16} className="mr-2" />
-              Export Backup
+              Exportar Backup
             </button>
           </div>
 
           {/* Import Data */}
           <div className="bg-blackmetal-700 border border-blackmetal-600 p-4 rounded">
-            <h3 className="text-lg font-medium text-grimdark-100 mb-2">Import Data</h3>
+            <h3 className="text-lg font-medium text-grimdark-100 mb-2">Importar Dados</h3>
             <p className="text-sm text-grimdark-400 mb-4">
-              Restore data from a previously exported backup file.
+              Restaure dados de um arquivo de backup exportado anteriormente.
             </p>
             <label className="btn-outline w-full cursor-pointer flex items-center justify-center">
               <Upload size={16} className="mr-2" />
-              Import Backup
+              Importar Backup
               <input
                 type="file"
                 accept=".json"
@@ -300,9 +250,9 @@ const AdminSettings: React.FC = () => {
 
           {/* Reset Data */}
           <div className="bg-blackmetal-700 border border-red-600 p-4 rounded">
-            <h3 className="text-lg font-medium text-grimdark-100 mb-2">Reset Data</h3>
+            <h3 className="text-lg font-medium text-grimdark-100 mb-2">Resetar Dados</h3>
             <p className="text-sm text-grimdark-400 mb-4">
-              Clear all data and reset to default state. This cannot be undone!
+              Limpe todos os dados e redefina para o estado padrão. Isso não pode ser desfeito!
             </p>
             <button
               onClick={handleResetData}
@@ -313,7 +263,7 @@ const AdminSettings: React.FC = () => {
               }`}
             >
               <Trash2 size={16} className="mr-2" />
-              {showResetConfirm ? 'Click Again to Confirm' : 'Reset All Data'}
+              {showResetConfirm ? 'Clique Novamente para Confirmar' : 'Resetar Todos os Dados'}
             </button>
           </div>
         </div>
@@ -326,22 +276,17 @@ const AdminSettings: React.FC = () => {
         transition={{ duration: 0.3, delay: 0.2 }}
         className="bg-blackmetal-800 border border-blackmetal-600 p-6 rounded-lg"
       >
-        <h2 className="text-xl font-bold text-grimdark-100 mb-6">Database Statistics</h2>
+        <h2 className="text-xl font-bold text-grimdark-100 mb-6">Estatísticas do Banco de Dados</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <div className="text-3xl font-bold text-blue-400 mb-2">{bands.length}</div>
-            <div className="text-grimdark-300">Total Bands</div>
+            <div className="text-grimdark-300">Total de Bandas</div>
           </div>
           
           <div className="text-center">
             <div className="text-3xl font-bold text-green-400 mb-2">{releases.length}</div>
-            <div className="text-grimdark-300">Total Releases</div>
-          </div>
-          
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-400 mb-2">{products.length}</div>
-            <div className="text-grimdark-300">Total Products</div>
+            <div className="text-grimdark-300">Total de Lançamentos</div>
           </div>
         </div>
       </motion.div>
@@ -350,16 +295,16 @@ const AdminSettings: React.FC = () => {
       {showExportConfirm && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-blackmetal-800 border border-blackmetal-600 p-6 rounded-lg max-w-md">
-            <h3 className="text-lg font-bold text-grimdark-100 mb-4">Export Data</h3>
+            <h3 className="text-lg font-bold text-grimdark-100 mb-4">Exportar Dados</h3>
             <p className="text-grimdark-300 mb-6">
-              This will download a JSON file containing all your bands, releases, products, and settings.
+              Isso baixará um arquivo JSON contendo todas as suas bandas, lançamentos e configurações.
             </p>
             <div className="flex space-x-4">
               <button onClick={handleExportData} className="btn-primary">
-                Export
+                Exportar
               </button>
               <button onClick={() => setShowExportConfirm(false)} className="btn-secondary">
-                Cancel
+                Cancelar
               </button>
             </div>
           </div>

@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Disc, ShoppingBag, Music, Share2 } from 'lucide-react';
+import { ArrowLeft, Disc, Music, Share2, ExternalLink } from 'lucide-react';
 import { useAdminStore } from '../store/adminStore';
 
 const ReleaseDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { releases, products } = useAdminStore();
+  const { releases } = useAdminStore();
   
   // Find the current release
   const release = releases.find(r => r.id === id);
@@ -29,11 +29,6 @@ const ReleaseDetailPage: React.FC = () => {
     );
   }
 
-  // Find related products for this release
-  const releaseProducts = products.filter(product => 
-    product.releaseId === release.id
-  );
-  
   // Find other releases by the same artist
   const artistReleases = releases.filter(r => 
     r.artistId === release.artistId && r.id !== release.id
@@ -121,15 +116,13 @@ const ReleaseDetailPage: React.FC = () => {
                 <Music size={16} className="mr-2" />
                 View Artist
               </Link>
-              {releaseProducts.length > 0 && (
-                <Link
-                  to={`/shop/product/${releaseProducts[0].id}`}
-                  className="btn-primary"
-                >
-                  <ShoppingBag size={16} className="mr-2" />
-                  Buy Now
-                </Link>
-              )}
+              <button
+                className="btn-primary"
+                onClick={() => window.open('https://onlyhatepropaganda.bandcamp.com', '_blank')}
+              >
+                <ExternalLink size={16} className="mr-2" />
+                Ouvir no Bandcamp
+              </button>
               <button
                 className="btn-secondary"
                 onClick={() => {
@@ -143,61 +136,6 @@ const ReleaseDetailPage: React.FC = () => {
             </div>
           </motion.div>
         </div>
-
-        {/* Available Formats */}
-        {releaseProducts.length > 0 && (
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold mb-6">Available Formats</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-              {releaseProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  className="bg-blackmetal-800 border border-blackmetal-600 hover:border-blood-red group transition-all duration-300"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
-                  <Link to={`/shop/product/${product.id}`}>
-                    <div className="aspect-square overflow-hidden">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    </div>
-                  </Link>
-                  <div className="p-4">
-                    <Link
-                      to={`/shop/product/${product.id}`}
-                      className="block"
-                    >
-                      <h3 className="text-lg font-medium mb-1 group-hover:text-blood-red transition-colors duration-300">
-                        {product.name}
-                      </h3>
-                    </Link>
-                    <p className="mt-2 text-lg font-bold text-blood-red">
-                      R${product.price.toFixed(2)}
-                    </p>
-                    <div className="mt-3">
-                      {!product.inStock ? (
-                        <span className="text-sm text-grimdark-400">
-                          Out of Stock
-                        </span>
-                      ) : (
-                        <Link
-                          to={`/shop/product/${product.id}`}
-                          className="btn-outline text-sm w-full"
-                        >
-                          View Details
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* More by Artist */}
         {artistReleases.length > 0 && (

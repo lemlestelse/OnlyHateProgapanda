@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingCart } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCartStore } from '../store/cartStore';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const { items } = useCartStore();
-  
-  const itemCount = items.reduce((total, item) => total + item.quantity, 0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -45,30 +41,11 @@ const Header: React.FC = () => {
           <NavLink to="/" className="nav-link">Home</NavLink>
           <NavLink to="/releases" className="nav-link">Releases</NavLink>
           <NavLink to="/bands" className="nav-link">Bands</NavLink>
-          <NavLink to="/shop" className="nav-link">Shop</NavLink>
           <NavLink to="/contact" className="nav-link">Contact</NavLink>
-          
-          <Link to="/cart" className="relative ml-2">
-            <ShoppingCart className="text-grimdark-100 hover:text-blood-red transition-colors duration-300" />
-            {itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-blood-red text-blackmetal-900 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                {itemCount}
-              </span>
-            )}
-          </Link>
         </nav>
 
         {/* Mobile Navigation Toggle */}
-        <div className="flex items-center md:hidden">
-          <Link to="/cart" className="relative mr-6">
-            <ShoppingCart className="text-grimdark-100 hover:text-blood-red transition-colors duration-300" />
-            {itemCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-blood-red text-blackmetal-900 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                {itemCount}
-              </span>
-            )}
-          </Link>
-          
+        <div className="md:hidden">
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-grimdark-100 hover:text-blood-red transition-colors duration-300 z-50"
@@ -97,7 +74,6 @@ const Header: React.FC = () => {
                 <NavLink to="/" className="nav-link">Home</NavLink>
                 <NavLink to="/releases" className="nav-link">Releases</NavLink>
                 <NavLink to="/bands" className="nav-link">Bands</NavLink>
-                <NavLink to="/shop" className="nav-link">Shop</NavLink>
                 <NavLink to="/contact" className="nav-link">Contact</NavLink>
               </motion.nav>
             </motion.div>

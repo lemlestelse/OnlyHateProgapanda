@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Band, bands as initialBands } from '../data/bands';
 import { Release, releases as initialReleases } from '../data/releases';
-import { Product, products as initialProducts } from '../data/products';
 import { AdminSession, adminAuth } from '../data/admin';
 
 interface AdminStore {
@@ -14,7 +13,6 @@ interface AdminStore {
   // Data management
   bands: Band[];
   releases: Release[];
-  products: Product[];
   
   // Band management
   addBand: (band: Omit<Band, 'id'>) => void;
@@ -25,13 +23,6 @@ interface AdminStore {
   addRelease: (release: Omit<Release, 'id'>) => void;
   updateRelease: (id: string, release: Partial<Release>) => void;
   deleteRelease: (id: string) => void;
-  
-  // Product management
-  addProduct: (product: Omit<Product, 'id'>) => void;
-  updateProduct: (id: string, product: Partial<Product>) => void;
-  deleteProduct: (id: string) => void;
-  updateStock: (id: string, inStock: boolean) => void;
-  updateStockQuantity: (id: string, quantity: number) => void;
   
   // Utility functions
   generateId: () => string;
@@ -44,7 +35,6 @@ export const useAdminStore = create<AdminStore>()(
       session: adminAuth.getCurrentSession(),
       bands: initialBands,
       releases: initialReleases,
-      products: initialProducts,
       
       // Authentication
       login: (username: string, password: string) => {
@@ -113,60 +103,6 @@ export const useAdminStore = create<AdminStore>()(
         }));
       },
       
-      // Product management
-      addProduct: (productData) => {
-        const newProduct: Product = {
-          ...productData,
-          id: get().generateId(),
-          inStock: productData.stockQuantity > 0
-        };
-        set((state) => ({
-          products: [...state.products, newProduct]
-        }));
-      },
-      
-      updateProduct: (id, updates) => {
-        set((state) => ({
-          products: state.products.map(product => 
-            product.id === id ? { 
-              ...product, 
-              ...updates,
-              inStock: updates.stockQuantity !== undefined ? updates.stockQuantity > 0 : product.inStock
-            } : product
-          )
-        }));
-      },
-      
-      deleteProduct: (id) => {
-        set((state) => ({
-          products: state.products.filter(product => product.id !== id)
-        }));
-      },
-      
-      updateStock: (id, inStock) => {
-        set((state) => ({
-          products: state.products.map(product => 
-            product.id === id ? { 
-              ...product, 
-              inStock,
-              stockQuantity: inStock ? (product.stockQuantity || 1) : 0
-            } : product
-          )
-        }));
-      },
-
-      updateStockQuantity: (id, quantity) => {
-        set((state) => ({
-          products: state.products.map(product => 
-            product.id === id ? { 
-              ...product, 
-              stockQuantity: quantity,
-              inStock: quantity > 0
-            } : product
-          )
-        }));
-      },
-      
       // Utility functions
       generateId: () => {
         return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -176,8 +112,7 @@ export const useAdminStore = create<AdminStore>()(
       name: 'admin-store',
       partialize: (state) => ({
         bands: state.bands,
-        releases: state.releases,
-        products: state.products
+        releases: state.releases
       })
     }
   )

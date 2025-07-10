@@ -4,16 +4,12 @@ import { motion } from 'framer-motion';
 import { 
   Users, 
   Disc, 
-  ShoppingBag, 
-  TrendingUp, 
-  Package,
-  AlertTriangle,
   Plus
 } from 'lucide-react';
 import { useAdminStore } from '../../store/adminStore';
 
 const AdminDashboard: React.FC = () => {
-  const { bands, releases, products } = useAdminStore();
+  const { bands, releases } = useAdminStore();
 
   const stats = [
     {
@@ -32,25 +28,8 @@ const AdminDashboard: React.FC = () => {
       bgColor: 'bg-green-400/10',
       href: '/admin/releases'
     },
-    {
-      name: 'Total Products',
-      value: products.length,
-      icon: ShoppingBag,
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-400/10',
-      href: '/admin/products'
-    },
-    {
-      name: 'In Stock',
-      value: products.filter(p => p.inStock).length,
-      icon: Package,
-      color: 'text-green-400',
-      bgColor: 'bg-green-400/10',
-      href: '/admin/products'
-    }
   ];
 
-  const outOfStockProducts = products.filter(p => !p.inStock);
   const recentReleases = releases
     .sort((a, b) => b.year - a.year)
     .slice(0, 5);
@@ -58,7 +37,6 @@ const AdminDashboard: React.FC = () => {
   const quickActions = [
     { name: 'Add New Band', href: '/admin/bands/new', icon: Users },
     { name: 'Add New Release', href: '/admin/releases/new', icon: Disc },
-    { name: 'Add New Product', href: '/admin/products/new', icon: ShoppingBag },
   ];
 
   return (
@@ -118,45 +96,9 @@ const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Out of Stock Alert */}
-        {outOfStockProducts.length > 0 && (
-          <div className="bg-blackmetal-800 border border-blackmetal-600 p-6 rounded-lg">
-            <div className="flex items-center mb-4">
-              <AlertTriangle className="text-yellow-400 mr-2" size={20} />
-              <h2 className="text-xl font-bold text-grimdark-100">
-                Out of Stock Items ({outOfStockProducts.length})
-              </h2>
-            </div>
-            <div className="space-y-3">
-              {outOfStockProducts.slice(0, 5).map((product) => (
-                <div key={product.id} className="flex justify-between items-center">
-                  <div>
-                    <p className="text-grimdark-100 font-medium">{product.name}</p>
-                    <p className="text-sm text-grimdark-400">{product.artist}</p>
-                  </div>
-                  <Link
-                    to={`/admin/products/${product.id}`}
-                    className="text-blood-red hover:text-blood-red/80 text-sm"
-                  >
-                    Manage
-                  </Link>
-                </div>
-              ))}
-              {outOfStockProducts.length > 5 && (
-                <Link
-                  to="/admin/products"
-                  className="block text-center text-blood-red hover:text-blood-red/80 text-sm mt-4"
-                >
-                  View all out of stock items
-                </Link>
-              )}
-            </div>
-          </div>
-        )}
-
+      <div className="grid grid-cols-1 gap-8">
         {/* Recent Releases */}
-        <div className="bg-blackmetal-800 border border-blackmetal-600 p-6 rounded-lg">
+        <div className="bg-blackmetal-800 border border-blackmetal-600 p-6 rounded-lg max-w-2xl">
           <h2 className="text-xl font-bold text-grimdark-100 mb-4">Recent Releases</h2>
           <div className="space-y-3">
             {recentReleases.map((release) => (
