@@ -33,16 +33,8 @@ const Header: React.FC = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <Link to="/" className="z-50">
-          <img 
-            src="/img/logo-onlyhate.png" 
-            alt="Onlyhate Propaganda" 
-            className="h-12 w-auto"
-          />
-        </Link>
-
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-8 mx-auto">
           <NavLink to="/" className="nav-link">Home</NavLink>
           <NavLink to="/releases" className="nav-link">Releases</NavLink>
           <NavLink to="/bands" className="nav-link">Bands</NavLink>
@@ -50,7 +42,7 @@ const Header: React.FC = () => {
         </nav>
 
         {/* Mobile Navigation Toggle */}
-        <div className="md:hidden">
+        <div className="md:hidden ml-auto">
           <button 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="text-grimdark-100 hover:text-blood-red transition-colors duration-300 z-50"
