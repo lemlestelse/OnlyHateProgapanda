@@ -1,36 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Youtube, } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-secondary-800 text-white">
+    <footer className="bg-blackmetal-800 border-t border-blackmetal-600 text-grimdark-300">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div className="col-span-1">
-            <img 
-              src="https://raw.githubusercontent.com/lemlestelse/img/refs/heads/main/Logo%20Metal%20Madness%20Store%20-%20Editado.png" 
-              alt="Metal Madness Store" 
-              className="h-12 w-auto mb-4"
-            />
-            <p className="text-gray-300 mb-4">
-              Your ultimate destination for metal and rock merchandise. 
-              Quality products for true metalheads.
+          {/* Logo and About */}
+          <div className="col-span-1 md:col-span-1">
+            <Link to="/" className="inline-block mb-4">
+            </Link>
+            <p className="text-sm mb-4">
+              Onlyhate Propaganda is a black metal label dedicated to preserving the raw, 
+              uncompromising essence of black metal through quality releases and artistic integrity.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+            <div className="flex space-x-4 mt-4">
+              <a href="#" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white transition-colors">
+              <a href="#" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">
                 <Youtube size={20} />
               </a>
             </div>
@@ -38,105 +29,45 @@ const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div className="col-span-1">
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <h4 className="text-grimdark-100 text-lg mb-4">Navigation</h4>
             <ul className="space-y-2">
-              <li>
-                <Link to="/products" className="text-gray-300 hover:text-white transition-colors">
-                  All Products
-                </Link>
-              </li>
-              <li>
-                <Link to="/products?category=t-shirts" className="text-gray-300 hover:text-white transition-colors">
-                  T-Shirts
-                </Link>
-              </li>
-              <li>
-                <Link to="/products?category=hoodies" className="text-gray-300 hover:text-white transition-colors">
-                  Hoodies
-                </Link>
-              </li>
-              <li>
-                <Link to="/products?category=accessories" className="text-gray-300 hover:text-white transition-colors">
-                  Accessories
-                </Link>
-              </li>
-              <li>
-                <Link to="/products?category=vinyl-records" className="text-gray-300 hover:text-white transition-colors">
-                  Vinyl Records
-                </Link>
-              </li>
+              <li><Link to="/" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Home</Link></li>
+              <li><Link to="/releases" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Releases</Link></li>
+              <li><Link to="/bands" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Bands</Link></li>
+              <li><Link to="/contact" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Contact</Link></li>
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Latest Releases */}
           <div className="col-span-1">
-            <h4 className="text-lg font-semibold mb-4">Customer Service</h4>
+            <h4 className="text-grimdark-100 text-lg mb-4">Latest Releases</h4>
             <ul className="space-y-2">
-              <li>
-                <Link to="/account" className="text-gray-300 hover:text-white transition-colors">
-                  My Account
-                </Link>
-              </li>
-              <li>
-                <Link to="/orders" className="text-gray-300 hover:text-white transition-colors">
-                  Order History
-                </Link>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                  Shipping Info
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                  Returns
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                  Size Guide
-                </a>
-              </li>
+              <li><Link to="/releases/1" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Galdra - Hexennacht</Link></li>
+              <li><Link to="/releases/2" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Castrivenian / Necropsyum / Wotanskald - Renascidos das Cinzas</Link></li>
+              <li><Link to="/releases/3" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Kodorah - Fuh</Link></li>
             </ul>
           </div>
 
           {/* Contact Info */}
           <div className="col-span-1">
-            <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Mail size={16} className="text-gray-400" />
-                <span className="text-gray-300">support@metalmadness.com</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone size={16} className="text-gray-400" />
-                <span className="text-gray-300">+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin size={16} className="text-gray-400" />
-                <span className="text-gray-300">123 Metal Street, Rock City, RC 12345</span>
-              </div>
-            </div>
+            <h4 className="text-grimdark-100 text-lg mb-4">Contact Us</h4>
+            <address className="not-italic">
+              <p className="mb-4">onlyhatepropaganda@gmail.com</p>
+            </address>
+            <p className="text-xs mt-4">
+              For wholesale inquiries or distribution offers, 
+              please contact us directly through our email.
+            </p>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-300 text-sm">
-              &copy; {currentYear} Metal Madness Store. All rights reserved.
-            </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors">
-                Cookie Policy
-              </a>
-            </div>
-          </div>
+        <div className="border-t border-blackmetal-600 mt-8 pt-8 text-center text-xs">
+          <p>&copy; {currentYear} Onlyhate Propaganda. All Rights Reserved.</p>
+          <p className="mt-2">
+            <Link to="/privacy-policy" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Privacy Policy</Link>
+            {' • '}
+            <Link to="/terms" className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">Terms of Service</Link>
+          </p>
         </div>
       </div>
     </footer>

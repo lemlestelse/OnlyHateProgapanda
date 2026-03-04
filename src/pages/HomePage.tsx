@@ -1,230 +1,171 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import { ShoppingBag, Star, Truck, Shield, Headphones } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { motion } from 'framer-motion';
+import { Disc, Music } from 'lucide-react';
+import { bands } from '../data/bands';
+import { releases } from '../data/releases';
 
 const HomePage: React.FC = () => {
-  // Fetch featured products
-  const { data: featuredProducts = [] } = useQuery(
-    'featured-products',
-    async () => {
-      const { data, error } = await supabase
-        .from('products')
-        .select(`
-          *,
-          categories (
-            name
-          )
-        `)
-        .eq('featured', true)
-        .eq('is_active', true)
-        .limit(4);
-
-      if (error) throw error;
-      return data;
-    }
-  );
-
-  // Fetch categories
-  const { data: categories = [] } = useQuery(
-    'categories',
-    async () => {
-      const { data, error } = await supabase
-        .from('categories')
-        .select('*')
-        .limit(6);
-
-      if (error) throw error;
-      return data;
-    }
-  );
+  const featuredReleases = releases.filter(release => release.featured).slice(0, 3);
+  const featuredBands = bands.filter(band => band.featured).slice(0, 4);
 
   return (
-    <div className="min-h-screen">
+    <div className="bg-blackmetal-900 text-grimdark-100">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-secondary-900 to-secondary-800 text-white">
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative container mx-auto px-4 py-24 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 font-rock">
-            Metal Madness Store
-          </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
-            Unleash your inner metalhead with our exclusive collection of 
-            band merchandise, vinyl records, and rock accessories.
+      <section className="min-h-[70vh] flex items-center justify-center bg-blackmetal-900 border-b border-blackmetal-600">
+        <motion.div 
+          className="container mx-auto px-4 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="flex justify-center mb-6">
+            <img 
+              src="/img/logo-onlyhate.png" 
+              alt="Onlyhate Propaganda" 
+              className="h-32 md:h-48 w-auto"
+            />
+          </div>
+          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-grimdark-300">
+            Preservando a essência sombria do black metal através da expressão artística sem compromissos
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/products" className="btn-primary text-lg px-8 py-3">
-              <ShoppingBag className="mr-2" size={20} />
-              Shop Now
+            <Link to="/releases" className="btn-primary">
+              <Disc className="mr-2" size={18} />
+              Explorar Lançamentos
             </Link>
-            <Link to="/products?featured=true" className="btn-outline text-lg px-8 py-3 border-white text-white hover:bg-white hover:text-secondary-900">
-              Featured Products
+            <Link to="/bands" className="btn-outline">
+              <Music className="mr-2" size={18} />
+              Conhecer Bandas
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-white">
+      {/* Featured Releases */}
+      <section className="py-20 bg-blackmetal-800">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Truck className="text-primary-600" size={32} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Free Shipping</h3>
-              <p className="text-gray-600">Free shipping on orders over $50</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Shield className="text-primary-600" size={32} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Secure Payment</h3>
-              <p className="text-gray-600">100% secure payment processing</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-primary-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Headphones className="text-primary-600" size={32} />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">24/7 Support</h3>
-              <p className="text-gray-600">Customer support whenever you need</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Shop by Category</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Discover our wide range of metal and rock merchandise across different categories
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                to={`/products?category=${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className="group"
-              >
-                <div className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 text-center">
-                  {category.image_url ? (
-                    <img
-                      src={category.image_url}
-                      alt={category.name}
-                      className="w-16 h-16 mx-auto mb-4 object-cover rounded-full"
-                    />
-                  ) : (
-                    <div className="w-16 h-16 mx-auto mb-4 bg-primary-100 rounded-full flex items-center justify-center">
-                      <ShoppingBag className="text-primary-600" size={24} />
-                    </div>
-                  )}
-                  <h3 className="font-semibold group-hover:text-primary-600 transition-colors">
-                    {category.name}
-                  </h3>
-                </div>
+          <h2 className="text-3xl font-bold mb-12">Últimos Lançamentos</h2>
+          {featuredReleases.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-grimdark-300 mb-4">Nenhum lançamento em destaque disponível ainda.</p>
+              <Link to="/releases" className="btn-outline">
+                Ver Todos os Lançamentos
               </Link>
-            ))}
-          </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {featuredReleases.map((release, index) => (
+                <motion.div 
+                  key={release.id}
+                  className="album-card bg-blackmetal-900"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="relative aspect-square">
+                    <img 
+                      src={release.image} 
+                      alt={`${release.title} by ${release.artist}`} 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-blackmetal-900 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end">
+                      <div className="p-4">
+                        <Link to={`/releases/${release.id}`} className="btn-primary text-sm w-full">
+                          View Details
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <Link to={`/releases/${release.id}`}>
+                      <h3 className="text-xl font-bold mb-1 hover:text-blood-red transition-colors duration-300">{release.title}</h3>
+                    </Link>
+                    <Link to={`/bands/${release.artistId}`} className="text-grimdark-300 hover:text-blood-red transition-colors duration-300">
+                      {release.artist}
+                    </Link>
+                    <div className="flex justify-between mt-2 text-sm text-grimdark-400">
+                      <span>{release.year}</span>
+                      <span>{release.type}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Featured Products Section */}
-      <section className="py-16 bg-white">
+      {/* Featured Bands */}
+      <section className="py-20 bg-blackmetal-900">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Featured Products</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Check out our handpicked selection of the hottest metal merchandise
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <div key={product.id} className="card product-card group">
-                <div className="relative aspect-square overflow-hidden">
-                  <img
-                    src={product.image_url}
-                    alt={product.name}
-                    className="w-full h-full object-cover product-image"
-                  />
-                  {product.stock_quantity <= 5 && product.stock_quantity > 0 && (
-                    <div className="absolute top-2 left-2">
-                      <span className="badge-warning">Low Stock</span>
-                    </div>
-                  )}
-                  {product.stock_quantity === 0 && (
-                    <div className="absolute top-2 left-2">
-                      <span className="badge-error">Out of Stock</span>
-                    </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <div className="flex items-center mb-2">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={14}
-                          className={`${
-                            i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                          }`}
-                        />
+          <h2 className="text-3xl font-bold mb-12">Bandas em Destaque</h2>
+          {featuredBands.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-grimdark-300 mb-4">Nenhuma banda em destaque disponível ainda.</p>
+              <Link to="/bands" className="btn-outline">
+                Ver Todas as Bandas
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredBands.map((band, index) => (
+                <motion.div 
+                  key={band.id}
+                  className="bg-blackmetal-800 border border-blackmetal-600 hover:border-blood-red group transition-all duration-300"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  <div className="relative aspect-square">
+                    <img 
+                      src={band.image} 
+                      alt={band.name} 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <Link to={`/bands/${band.id}`}>
+                      <h3 className="text-lg font-medium mb-1 hover:text-blood-red transition-colors duration-300">{band.name}</h3>
+                    </Link>
+                    <p className="text-sm text-grimdark-300">{band.country}</p>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {band.genres.slice(0, 2).map(genre => (
+                        <span key={genre} className="text-xs px-2 py-1 bg-blackmetal-700 text-grimdark-400">
+                          {genre}
+                        </span>
                       ))}
                     </div>
-                    <span className="text-sm text-gray-500 ml-2">(4.0)</span>
                   </div>
-                  <h3 className="font-semibold mb-2 line-clamp-2">{product.name}</h3>
-                  <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                    {product.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-primary-600">
-                      ${product.price.toFixed(2)}
-                    </span>
-                    <Link
-                      to={`/products/${product.id}`}
-                      className="btn-primary text-sm"
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="text-center mt-12">
-            <Link to="/products" className="btn-outline text-lg px-8 py-3">
-              View All Products
-            </Link>
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-16 bg-secondary-800 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Stay in the Loop</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Subscribe to our newsletter and be the first to know about new arrivals, 
-            exclusive deals, and metal news.
-          </p>
-          <form className="max-w-md mx-auto flex gap-4">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500"
-              required
-            />
-            <button type="submit" className="btn-primary px-6 py-3">
-              Subscribe
-            </button>
-          </form>
+      <section className="py-20 bg-blackmetal-800">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-6">Junte-se à Nossa Newsletter</h2>
+            <p className="text-grimdark-300 mb-8">
+              Inscreva-se para receber atualizações sobre novos lançamentos e conteúdo exclusivo.
+            </p>
+            <form className="max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <input 
+                  type="email" 
+                  placeholder="Seu endereço de email" 
+                  className="input-dark flex-grow" 
+                  required
+                />
+                <button type="submit" className="btn-primary whitespace-nowrap">
+                  Inscrever-se
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </section>
     </div>
